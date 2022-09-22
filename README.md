@@ -8,9 +8,9 @@ ik zal dit regelmatig proberen te updaten.
 
 # Onderdelen
 
-## Module 1: Zuil
-## Module 2: Moderatie
-## Module 3: Stationshalscherm
+- Module 1: Zuil
+- Module 2: Moderatie
+- Module 3: Stationshalscherm
 
 ### Zuil
 
