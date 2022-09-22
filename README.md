@@ -12,14 +12,14 @@ ik zal dit regelmatig proberen te updaten.
 ## Module 2: Moderatie
 ## Module 3: Stationshalscherm
 
-###Zuil
+### Zuil
 
 De stationszuil wordt gerealiseerd met Python, vanuit de zuil kan een reiziger bij de NS een bericht/review achterlaten en dit bericht kan dan op meerdere stations getoond worden.
 
-###Moderatie
+### Moderatie
 
 Er wordt een bericht uit het bestand gehaald, dit bericht wordt naar de moderator toegestuurd. Deze kan beoordelen of het bericht wel of niet geschikt is. Dit bericht wordt vervolgens doorgestuurd naar de 
 
-###Stationshalscherm
+### Stationshalscherm
 
 Het omzetten van de code in een GUI.
