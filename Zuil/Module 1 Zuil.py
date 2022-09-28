@@ -24,8 +24,9 @@ def mening():
     if naam == 'clear':
         clear()
     elif len(bericht) < 140:
-        berichten.write(f'{naam};{tijd};{bericht};{random_station()}\n')
+        berichten.write(f'{naam};{tijd};{bericht};{random_station()}')
         print("Bericht opgeslagen, dank voor uw mening!")
+
 
 def clear():
     berichten_clear = open('berichten.csv', 'w')
