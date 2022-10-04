@@ -13,7 +13,7 @@ def random_station():
 
 
 def mening():
-    berichten = open('berichten.csv', 'a')
+    berichten = open('../berichten.csv', 'a')
     naam = input("Voer uw naam in: ")
     tijd = vandaag.strftime('%d/%m/%Y %H:%M:%S')
     if len(naam) <= 0:
@@ -29,7 +29,7 @@ def mening():
 
 
 def clear():
-    berichten_clear = open('berichten.csv', 'w')
+    berichten_clear = open('../berichten.csv', 'w')
     berichten_clear.write('Naam;Datum/Tijd;Bericht;Station\n')
 
 
