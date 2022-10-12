@@ -29,8 +29,8 @@ def mening():
 
 
 def clear():
-    berichten_clear = open('../berichten.csv', 'w')
-    berichten_clear.write('Naam;Datum/Tijd;Bericht;Station\n')
+    with open('../berichten.csv', 'w'):
+        pass
 
 
 while True:
