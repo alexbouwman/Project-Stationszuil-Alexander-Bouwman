@@ -14,7 +14,7 @@ def random_station():
 
 def mening():
     berichten = open('../berichten.csv', 'a')
-    naam = input("Voer uw naam in: ")
+    naam = input("Voer uw naam in: ").strip()
     tijd = vandaag.strftime('%d/%m/%Y %H:%M:%S')
     if len(naam) <= 0:
         naam = "Anoniem"
