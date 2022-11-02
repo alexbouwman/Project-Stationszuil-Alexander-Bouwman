@@ -14,13 +14,13 @@ def random_station():
 
 def mening():
     berichten = open('../berichten.csv', 'a')
-    naam = input("Voer uw naam in: ").strip()
+    naam = input("Voer uw naam in: ").strip().split(' ')[0]
     tijd = vandaag.strftime('%d/%m/%Y %H:%M:%S')
     if len(naam) <= 0:
         naam = "Anoniem"
     bericht = input("Geef uw mening over dit station: ")
     if len(bericht) > 140:
-        print("Bericht is te lang. Probeer opnieuw.")
+        print("Bericht is te lang, probeer opnieuw.")
     if naam == 'clear':
         clear()
     elif len(bericht) < 140:
