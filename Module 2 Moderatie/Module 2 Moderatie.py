@@ -21,7 +21,7 @@ def beoordeling():
         elif beoordeling2 == 'nee':
             x.append('Afgekeurd')
         x.append(moderatornaam)
-        x.append(moderatortijd)
+        x.append(tijd_halen())
         x.append(moderatoremail)
     return beoordeeld
 
@@ -29,10 +29,15 @@ def beoordeling():
 with open('../berichten.csv') as meningen:
     onbeoordeeld = meningen.readlines()
 
-vandaag = datetime.today()
 moderatornaam = input('Moderator naam: ')
-moderatortijd = vandaag.strftime('%d/%m/%Y %H:%M:%S')
 moderatoremail = input('Moderator E-mail: ')
+
+
+def tijd_halen():
+    vandaag = datetime.today()
+    moderatortijd = vandaag.strftime('%d/%m/%Y %H:%M:%S')
+    return moderatortijd
+
 
 meningen_toevoegen = open('../berichten.csv', 'w')
 for x in beoordeling():
@@ -45,6 +50,7 @@ with open('../berichten.csv') as meningen:
     for mening in inlezen:
         importeren.append(mening.strip().split(';'))
 
+
 for record in range(len(importeren)):
     naam = importeren[record][0]
     datum = importeren[record][1]
@@ -55,11 +61,12 @@ for record in range(len(importeren)):
     tijd_mod = importeren[record][6]
     email_mod = importeren[record][7]
     curs = conn.cursor()
-    insert_naam = f"INSERT INTO meningen(naam_gebruiker, datum, bericht, station, " \
-                  f"status, moderator, tijdmod, emailmod)" \
-                  f" VALUES ('{naam}', '{datum}', '{bericht}', '{station}', '{status}', " \
-                  f"'{moderator}', '{tijd_mod}', '{email_mod}')"
-    curs.execute(insert_naam)
+    insert_meningen = f"INSERT INTO meningen(mening, datum, naam, station, status)" \
+                      f"VALUES ('{bericht}', '{datum}', '{naam}', '{station}', '{status}')"
+    insert_moderator = f"INSERT INTO moderatie(datum, mod_naam, mod_email)" \
+                       f"VALUES ('{tijd_mod}', '{moderator}', '{email_mod}')"
+    curs.execute(insert_meningen)
+    curs.execute(insert_moderator)
     conn.commit()
 conn.close()
 

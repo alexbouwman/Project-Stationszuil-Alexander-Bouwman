@@ -56,12 +56,12 @@ tijd = tk.Frame(window, bg='white')
 # -------------------------------------------------------------------------------------------------------------------- #
 
 curs_bericht = conn.cursor()
-bericht_display = f"SELECT bericht FROM meningen WHERE status LIKE 'Goedgekeurd' ORDER BY datum DESC"
+bericht_display = f"SELECT mening FROM meningen WHERE status LIKE 'Goedgekeurd' ORDER BY datum DESC"
 curs_bericht.execute(bericht_display)
 inlezen_berichten = curs_bericht.fetchall()
 
 curs_naam = conn.cursor()
-naam_display = f"SELECT naam_gebruiker FROM meningen WHERE status LIKE 'Goedgekeurd' ORDER BY datum DESC"
+naam_display = f"SELECT naam FROM meningen WHERE status LIKE 'Goedgekeurd' ORDER BY datum DESC"
 curs_naam.execute(naam_display)
 inlezen_naam = curs_naam.fetchall()
 
@@ -201,7 +201,7 @@ infostation_label.grid(column=0, columnspan=2, row=3, sticky='news', pady=30)
 def infobericht_vernieuwen(teller3):
     try:
         vardatumbericht.set(
-            datetime.strftime((datetime.strptime(str(inlezen_infobericht[teller3][0]), '%d/%m/%Y %H:%M:%S')),
+            datetime.strftime((datetime.strptime(str(inlezen_infobericht[teller3][0]), '%Y-%m-%d %H:%M:%S')),
                               '%d/%m/%Y'))
     except IndexError:
         pass
@@ -239,12 +239,6 @@ tijd_label.place(relx=0.5, rely=0.5, anchor='center')
 
 # -------------------------------------------------------------------------------------------------------------------- #
 
-resource_uri = 'https://api.openweathermap.org/data/2.5/weather?q=Hilversum,' \
-               'NL&appid=899abec4310dcd6f4bb871df89a7dfb1&units=metric '
-weer_data = requests.get(resource_uri).json()
-
-# -------------------------------------------------------------------------------------------------------------------- #
-
 topwindow = tk.Toplevel()
 topwindow.geometry("270x400")
 topwindow.title("Kies een station:")
@@ -256,20 +250,20 @@ plaatsnaam = tk.StringVar()
 
 def plaatsnaam1():
     plaatsnaam.set('Amsterdam')
-    # print(plaatsnaam.get())
     topwindow.destroy()
+    weer_krijgen()
 
 
 def plaatsnaam2():
     plaatsnaam.set('Hilversum')
-    # print(plaatsnaam.get())
     topwindow.destroy()
+    weer_krijgen()
 
 
 def plaatsnaam3():
     plaatsnaam.set('Utrecht')
-    # print(plaatsnaam.get())
     topwindow.destroy()
+    weer_krijgen()
 
 
 knop_amsterdam = tk.Button(topwindow, text='Amsterdam', bg='#212b5c', fg='#ffc917', activebackground="#212b5c",
@@ -286,17 +280,39 @@ knop_amsterdam.pack(pady=0, padx=0)
 knop_hilversum.pack(pady=0, padx=0)
 knop_utrecht.pack(pady=0, padx=0)
 
+
 # -------------------------------------------------------------------------------------------------------------------- #
+
+weer_temp_now = tk.StringVar()
+regenkans = tk.StringVar()
+
+
+def weer_krijgen():
+    weather_uri = f'https://api.openweathermap.org/data/2.5/weather?q={plaatsnaam.get()},' \
+                   'NL&appid=ef5e504bc5339965c900ce43fa5a029c&units=metric'
+    forecast_uri = f'https://api.openweathermap.org/data/2.5/forecast?q={plaatsnaam.get()},' \
+                   'NL&appid=ef5e504bc5339965c900ce43fa5a029c&units=metric'
+    weer_data = requests.get(weather_uri).json()
+    forecast_data = requests.get(forecast_uri).json()
+    weer_temp_now.set(f'Temperatuur: {weer_data["main"]["temp"]:.1f}°C')
+    regenkans.set(f'Kans op regen: {(forecast_data["list"][0]["pop"])*100}%')
+
 
 weer = tk.Frame(window, bg='white',)
 weer.grid_columnconfigure(0, weight=1)
-weer.grid_columnconfigure(1, weight=1)
+weer.grid_columnconfigure(1, weight=100)
 weer.grid_rowconfigure(0, weight=1)
 weer.grid_rowconfigure(1, weight=1)
+weer.grid_rowconfigure(2, weight=1)
+weer.grid_rowconfigure(3, weight=100)
 weer.grid_propagate(False)
 
 weer_plaatsnaam = tk.Label(weer, textvariable=plaatsnaam, fg='#212b5c', bg='white', font=('', 20, 'bold'))
 weer_plaatsnaam.grid(column=0, row=0, sticky='nw', padx=3)
+weer_regenkanstext = tk.Label(weer, textvariable=regenkans, fg='#212b5c', bg='white', font=('', 20))
+weer_regenkanstext.grid(column=0, row=2, sticky='nw', padx=3)
+weer_temp = tk.Label(weer, textvariable=weer_temp_now, fg='#212b5c', bg='white', font=('', 20))
+weer_temp.grid(column=0, row=1, sticky='nw', padx=3)
 
 # -------------------------------------------------------------------------------------------------------------------- #
 
